@@ -1,0 +1,100 @@
+graph TD
+    %% Main Application Structure
+    App[App.tsx] --> Routes[React Router Routes]
+    Routes --> Auth[Authentication]
+    Routes --> ProtectedRoutes[Protected Routes]
+    
+    %% Authentication Flow
+    Auth --> Login[Login.tsx]
+    Auth --> Register[Register.tsx]
+    Auth --> ForgotPassword[Forgot Password - To Implement]
+    
+    %% Protected Routes
+    ProtectedRoutes --> MainLayout[MainLayout.tsx]
+    MainLayout --> Dashboard[Dashboard.tsx]
+    MainLayout --> Inventory[Inventory Management]
+    MainLayout --> Recipes[Recipe Management]
+    MainLayout --> Settings[Settings - To Implement]
+    MainLayout --> Profile[User Profile - To Implement]
+    
+    %% State Management
+    Redux[Redux Store] --> AuthSlice[Auth Slice]
+    Redux --> InventorySlice[Inventory Slice]
+    Redux --> RecipesSlice[Recipes Slice]
+    Redux --> API[API Service]
+    
+    %% Inventory Management
+    Inventory --> InventoryList[InventoryList.tsx]
+    Inventory --> InventoryDetail[InventoryDetail.tsx]
+    InventoryList --> InventoryDetail
+    
+    %% Recipe Management
+    Recipes --> RecipeList[RecipeList.tsx]
+    Recipes --> RecipeDetail[RecipeDetail.tsx]
+    RecipeList --> RecipeDetail
+    
+    %% Data Flow
+    API --> BackendAPI[Backend REST API]
+    
+    %% Services & Utilities
+    Utilities[Utilities & Helpers] --> Components[Shared Components]
+    Utilities --> Hooks[Custom Hooks]
+    
+    %% Style System
+    Styles[Styling System] --> Theme[MUI Theme]
+    Styles --> CSS[Global CSS]
+    
+    %% Component Dependencies
+    Components --> Login
+    Components --> Register
+    Components --> MainLayout
+    Components --> InventoryList
+    Components --> InventoryDetail
+    Components --> RecipeList
+    Components --> RecipeDetail
+    Components --> Dashboard
+    
+    %% Hooks Usage
+    Hooks --> Login
+    Hooks --> Register
+    Hooks --> InventoryList
+    Hooks --> InventoryDetail
+    Hooks --> RecipeList
+    Hooks --> RecipeDetail
+    Hooks --> Dashboard
+    
+    %% State Management Usage
+    AuthSlice --> Login
+    AuthSlice --> Register
+    AuthSlice --> ProtectedRoutes
+    AuthSlice --> MainLayout
+    InventorySlice --> InventoryList
+    InventorySlice --> InventoryDetail
+    InventorySlice --> Dashboard
+    RecipesSlice --> RecipeList
+    RecipesSlice --> RecipeDetail
+    RecipesSlice --> Dashboard
+    
+    %% Styling
+    Theme --> MainLayout
+    Theme --> Login
+    Theme --> Register
+    Theme --> Dashboard
+    Theme --> InventoryList
+    Theme --> InventoryDetail
+    Theme --> RecipeList
+    Theme --> RecipeDetail
+    
+    %% Future Components (dotted lines)
+    MainLayout -.-> SupplierManagement[Supplier Management - Future]
+    MainLayout -.-> Reports[Reports - Future]
+    Dashboard -.-> Analytics[Advanced Analytics - Future]
+    
+    %% Technical Implementation Details
+    classDef implemented fill:#d4edda,stroke:#c3e6cb,color:#155724
+    classDef toImplement fill:#f8d7da,stroke:#f5c6cb,color:#721c24
+    classDef future fill:#e2e3e5,stroke:#d6d8db,color:#383d41
+    
+    class App,Routes,Auth,ProtectedRoutes,MainLayout,Dashboard,Inventory,Recipes,Redux,AuthSlice,InventorySlice,RecipesSlice,API,InventoryList,InventoryDetail,RecipeList,RecipeDetail,Login,Register,Utilities,Components,Hooks,Styles,Theme,CSS implemented
+    class ForgotPassword,Settings,Profile toImplement
+    class SupplierManagement,Reports,Analytics future

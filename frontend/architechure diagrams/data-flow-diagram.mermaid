@@ -1,0 +1,79 @@
+flowchart TB
+    %% User interaction
+    User((User)) --> UI[User Interface]
+    
+    %% Main components
+    subgraph Frontend
+        UI --> ReactComponents[React Components]
+        ReactComponents --> ReduxActions[Redux Actions]
+        ReduxActions --> ReduxReducers[Redux Reducers]
+        ReduxReducers --> ReduxStore[Redux Store]
+        ReduxStore --> ReactComponents
+        
+        subgraph "API Integration"
+            ReduxActions --> RTKQuery[RTK Query / API Service]
+            ApiHooks[Custom API Hooks] --> ReactComponents
+            RTKQuery <--> ApiHooks
+        end
+    end
+    
+    %% Backend communication
+    RTKQuery <-->|HTTP Requests| Backend
+    
+    subgraph Backend
+        Backend[Backend API] --> Database[(Database)]
+        Backend --> AuthService[Authentication Service]
+        Backend --> StorageService[Storage Service]
+    end
+    
+    %% Feature Modules
+    subgraph "Feature Modules"
+        ReactComponents --> AuthModule[Authentication Module]
+        ReactComponents --> InventoryModule[Inventory Module]
+        ReactComponents --> RecipeModule[Recipe Module]
+        ReactComponents --> DashboardModule[Dashboard Module]
+        ReactComponents --> SettingsModule[Settings Module]
+        
+        %% Feature details
+        AuthModule --> Login
+        AuthModule --> Register
+        AuthModule --> ProtectedRoutes
+        
+        InventoryModule --> InventoryList
+        InventoryModule --> InventoryDetail
+        InventoryModule --> LowStockAlerts
+        
+        RecipeModule --> RecipeList
+        RecipeModule --> RecipeDetail
+        RecipeModule --> RecipeCostCalculation
+        
+        DashboardModule --> MetricsDisplay
+        DashboardModule --> RecentActivity
+        DashboardModule --> QuickActions
+    end
+    
+    %% State Updates
+    ReduxStore --> AuthState[Auth State]
+    ReduxStore --> InventoryState[Inventory State]
+    ReduxStore --> RecipesState[Recipes State]
+    
+    AuthState --> AuthModule
+    InventoryState --> InventoryModule
+    InventoryState --> DashboardModule
+    RecipesState --> RecipeModule
+    RecipesState --> DashboardModule
+    
+    %% Local storage
+    ReduxStore <-->|Persist Auth State| LocalStorage[(Local Storage)]
+    
+    %% Styling
+    MUITheme[Material UI Theme] --> ReactComponents
+    GlobalCSS[Global CSS] --> ReactComponents
+    
+    %% Color coding
+    classDef implemented fill:#d4edda,stroke:#c3e6cb
+    classDef planned fill:#fff3cd,stroke:#ffeeba
+    classDef future fill:#f8d7da,stroke:#f5c6cb
+    
+    class UI,ReactComponents,ReduxActions,ReduxReducers,ReduxStore,AuthModule,InventoryModule,RecipeModule,DashboardModule,Login,Register,ProtectedRoutes,InventoryList,InventoryDetail,RecipeList,RecipeDetail,LowStockAlerts,RecipeCostCalculation,MUITheme,GlobalCSS,RTKQuery,ApiHooks,AuthState,InventoryState,RecipesState,LocalStorage implemented
+    class SettingsModule,MetricsDisplay,RecentActivity,QuickActions planned

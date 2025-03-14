@@ -1,0 +1,211 @@
+classDiagram
+    %% Main Application Structure
+    App --> Router
+    Router --> ProtectedRoute
+    Router --> PublicRoutes
+    
+    %% Layouts
+    ProtectedRoute --> MainLayout
+    PublicRoutes --> AuthLayout
+    
+    %% Main Feature Components
+    MainLayout --> Dashboard
+    MainLayout --> InventoryList
+    MainLayout --> InventoryDetail
+    MainLayout --> RecipeList
+    MainLayout --> RecipeDetail
+    MainLayout --> SettingsPage
+    MainLayout --> ProfilePage
+    
+    %% Auth Components
+    AuthLayout --> Login
+    AuthLayout --> Register
+    AuthLayout --> ForgotPassword
+    
+    %% Component Hierarchy for Dashboard
+    Dashboard --> StatsCard
+    Dashboard --> LowStockList
+    Dashboard --> PopularRecipesList
+    
+    %% Component Hierarchy for Inventory
+    InventoryList --> SearchBar
+    InventoryList --> DataTable
+    InventoryList --> StatusIndicator
+    InventoryDetail --> FormFields
+    InventoryDetail --> SupplierSelector
+    InventoryDetail --> CategorySelector
+    
+    %% Component Hierarchy for Recipes
+    RecipeList --> SearchBar
+    RecipeList --> RecipeCard
+    RecipeDetail --> FormFields
+    RecipeDetail --> IngredientsList
+    RecipeDetail --> CostCalculator
+    RecipeDetail --> Instructions
+    
+    %% Redux State Management
+    ReduxStore --> AuthSlice
+    ReduxStore --> InventorySlice
+    ReduxStore --> RecipeSlice
+    
+    %% State Consumers
+    AuthSlice <.. Login
+    AuthSlice <.. Register
+    AuthSlice <.. ProtectedRoute
+    AuthSlice <.. MainLayout
+    
+    InventorySlice <.. InventoryList
+    InventorySlice <.. InventoryDetail
+    InventorySlice <.. Dashboard
+    InventorySlice <.. LowStockList
+    InventorySlice <.. RecipeDetail
+    
+    RecipeSlice <.. RecipeList
+    RecipeSlice <.. RecipeDetail
+    RecipeSlice <.. Dashboard
+    RecipeSlice <.. PopularRecipesList
+    
+    %% Custom Hooks
+    ReduxHooks <.. Login
+    ReduxHooks <.. Register
+    ReduxHooks <.. Dashboard
+    ReduxHooks <.. InventoryList
+    ReduxHooks <.. InventoryDetail
+    ReduxHooks <.. RecipeList
+    ReduxHooks <.. RecipeDetail
+    
+    %% UI Components
+    MUIComponents <.. StatsCard
+    MUIComponents <.. DataTable
+    MUIComponents <.. SearchBar
+    MUIComponents <.. FormFields
+    MUIComponents <.. RecipeCard
+    MUIComponents <.. StatusIndicator
+    MUIComponents <.. MainLayout
+    MUIComponents <.. AuthLayout
+    
+    %% Class definitions
+    class App {
+        +render()
+    }
+    
+    class Router {
+        +routes: Route[]
+        +render()
+    }
+    
+    class MainLayout {
+        +children: ReactNode
+        +drawerOpen: boolean
+        +handleDrawerToggle()
+        +handleLogout()
+        +render()
+    }
+    
+    class Dashboard {
+        +loading: boolean
+        +stats: Stats
+        +lowStockItems: Item[]
+        +popularRecipes: Recipe[]
+        +useEffect()
+        +render()
+    }
+    
+    class InventoryList {
+        +loading: boolean
+        +items: InventoryItem[]
+        +searchTerm: string
+        +handleAddItem()
+        +handleEditItem()
+        +handleDeleteItem()
+        +handleSearch()
+        +render()
+    }
+    
+    class InventoryDetail {
+        +id: string
+        +loading: boolean
+        +formData: InventoryFormData
+        +handleInputChange()
+        +handleSubmit()
+        +render()
+    }
+    
+    class RecipeList {
+        +loading: boolean
+        +recipes: Recipe[]
+        +searchTerm: string
+        +handleAddRecipe()
+        +handleEditRecipe()
+        +handleDeleteRecipe()
+        +handleSearch()
+        +render()
+    }
+    
+    class RecipeDetail {
+        +id: string
+        +loading: boolean
+        +formData: RecipeFormData
+        +handleInputChange()
+        +handleAddIngredient()
+        +handleRemoveIngredient()
+        +calculateCostPerServing()
+        +handleSubmit()
+        +render()
+    }
+    
+    class AuthSlice {
+        +user: User | null
+        +token: string | null
+        +isAuthenticated: boolean
+        +isLoading: boolean
+        +error: string | null
+        +loginStart()
+        +loginSuccess()
+        +loginFailure()
+        +logout()
+        +updateUser()
+        +clearError()
+    }
+    
+    class InventorySlice {
+        +items: InventoryItem[]
+        +loading: boolean
+        +error: string | null
+        +setInventoryItems()
+        +addInventoryItem()
+        +updateInventoryItem()
+        +removeInventoryItem()
+        +setLoading()
+        +setError()
+    }
+    
+    class RecipeSlice {
+        +recipes: Recipe[]
+        +loading: boolean
+        +error: string | null
+        +setRecipes()
+        +addRecipe()
+        +updateRecipe()
+        +removeRecipe()
+        +setLoading()
+        +setError()
+    }
+    
+    class ReduxHooks {
+        +useAppDispatch()
+        +useAppSelector()
+    }
+    
+    %% Indicate implemented vs to-be-implemented
+    class SettingsPage {
+        <<TO BE IMPLEMENTED>>
+    }
+    
+    class ProfilePage {
+        <<TO BE IMPLEMENTED>>
+    }
+    
+    class ForgotPassword {
+        <<TO BE IMPLEMENTED>>
+    }
